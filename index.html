@@ -1,54 +1,49 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Firemap</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Firemap</title>
+
+<link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
 
-  <!-- SPLASH -->
-  <div id="splash">
-    <img id="logo" src="./assets/icon.svg" alt="Firemap">
-  </div>
+<div id="splash">
+  <img id="logo" src="./assets/icon.svg" alt="Firemap">
+</div>
 
-  <!-- PÁGINA (vacía por ahora) -->
-  <main id="page" class="hidden"></main>
+<main id="page" class="hidden"></main>
 
-  <script>
-    window.addEventListener("load", () => {
-      const splash = document.getElementById("splash");
-      const logo = document.getElementById("logo");
-      const page = document.getElementById("page");
+<script>
+window.addEventListener("load", () => {
 
-      // 1) Forzamos a que el navegador pinte primero el estado inicial (opacity 0)
-      // y luego activamos la animación del logo.
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          logo.classList.add("logo-in");
-        });
-      });
+  const splash = document.getElementById("splash");
+  const logo = document.getElementById("logo");
+  const page = document.getElementById("page");
 
-      // 2) Tiempo que el logo permanece visible ANTES de empezar a desaparecer
-      const HOLD_MS = 900;
+  // Forzamos que primero pinte invisible
+  setTimeout(() => {
+    logo.classList.add("logo-in");
+  }, 200); // espera 200ms antes de empezar a aparecer
 
-      // 3) Duración del fade-out (debe coincidir con CSS)
-      const FADE_MS = 900;
+  const HOLD_MS = 1800; // tiempo total visible antes de desaparecer
+  const FADE_MS = 1200; // duración del fade out
 
-      setTimeout(() => {
-        splash.classList.add("fade");
+  setTimeout(() => {
+    splash.classList.add("fade");
 
-        setTimeout(() => {
-          splash.style.display = "none";
-          page.classList.remove("hidden");
-          page.classList.add("show");
-        }, FADE_MS);
+    setTimeout(() => {
+      splash.style.display = "none";
+      page.classList.remove("hidden");
+      page.classList.add("show");
+    }, FADE_MS);
 
-      }, HOLD_MS);
-    });
-  </script>
+  }, HOLD_MS);
+
+});
+</script>
 
 </body>
 </html>
