@@ -18,7 +18,7 @@
 <!-- PÁGINA -->
 <main id="page" class="hidden">
   <header class="topbar">
-    <div class="top-title">Firemap</div>
+    <h1 class="title">Firemap</h1>
   </header>
 </main>
 
@@ -34,8 +34,8 @@ window.addEventListener("load", () => {
     logo.classList.add("logo-in");
   }, 200);
 
-  const HOLD_MS = 1800; // espera antes de irse
-  const FADE_MS = 1200; // duración fade out
+  const HOLD_MS = 1800;
+  const FADE_MS = 1000;
 
   setTimeout(() => {
     splash.classList.add("fade");
