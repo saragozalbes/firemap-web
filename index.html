@@ -1,94 +1,470 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Firemap</title>
-<link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Firemap</title>
+  <meta name="description" content="Firemap – During Fallas, receive a daily notification featuring the monument of the day." />
+
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#0b0b0b;
+      --muted:#3b3b3b;
+      --line:rgba(0,0,0,0.12);
+      --shadow: 0 14px 40px rgba(0,0,0,0.12);
+      --radius: 18px;
+      --max: 980px;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      margin:0;
+      padding:0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, system-ui, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a{
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    /* ========== TOP BAR ========== */
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255,255,255,0.90);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .topbar-inner{
+      height: 76px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position: relative;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+
+    .brand{
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .burger{
+      position:absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      cursor: pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition: transform .12s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .burger:hover{
+      box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+      border-color: rgba(0,0,0,0.18);
+    }
+    .burger:active{
+      transform: translateY(-50%) scale(0.98);
+    }
+
+    .burger-lines{
+      width: 18px;
+      height: 12px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .burger-lines span{
+      display:block;
+      height: 2px;
+      background: #111;
+      border-radius: 999px;
+    }
+
+    .divider{
+      height: 1px;
+      background: var(--line);
+      width: 100%;
+    }
+
+    /* ========== CONTENT ========== */
+    main{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 34px 18px 70px;
+    }
+
+    .section{
+      margin-top: 26px;
+      padding: 22px;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .section-title{
+      font-size: 18px;
+      font-weight: 750;
+      margin: 0 0 10px;
+    }
+
+    .text{
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .contact-email{
+      display:inline-block;
+      margin-top: 6px;
+      font-weight: 650;
+      color: #111;
+      text-decoration: none; /* <- email no azul */
+    }
+    .contact-email:hover{
+      text-decoration: underline;
+    }
+
+    /* ========== DOWNLOAD BUTTONS ========== */
+    .btn-row{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .btn{
+      appearance: none;
+      border: 1px solid rgba(0,0,0,0.14);
+      background: #fff;
+      padding: 12px 14px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: 650;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      transition: transform .12s ease, box-shadow .2s ease, border-color .2s ease;
+      text-decoration: none;
+    }
+    .btn:hover{
+      border-color: rgba(0,0,0,0.22);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.10);
+      transform: translateY(-1px);
+    }
+    .btn:active{
+      transform: translateY(0px) scale(0.99);
+    }
+
+    .badge{
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.14);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size: 14px;
+      font-weight: 800;
+      color: #111;
+    }
+
+    /* ========== SMALL LANGUAGE POPUP (como tu foto) ========== */
+    .lang-popover{
+      position: absolute;
+      top: 64px;            /* debajo del header */
+      right: 18px;
+      width: 260px;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.10);
+      border-radius: 16px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.10);
+      padding: 14px 14px 16px;
+      opacity: 0;
+      transform: translateY(-6px);
+      pointer-events: none;
+      transition: opacity .18s ease, transform .18s ease;
+      z-index: 30;
+    }
+
+    .lang-popover.open{
+      opacity: 1;
+      transform: translateY(0px);
+      pointer-events: auto;
+    }
+
+    .lang-title{
+      margin: 0 0 10px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #555;
+    }
+
+    .lang-row{
+      display:flex;
+      gap: 12px;
+    }
+
+    .lang-pill{
+      flex: 1;
+      padding: 12px 0;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,0.18);
+      background: #fff;
+      cursor: pointer;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      transition: transform .12s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    /* botón activo (como en tu captura, más “marcado”) */
+    .lang-pill.active{
+      background: #f3f3f3;
+      border-color: rgba(0,0,0,0.35);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+    }
+
+    .lang-pill:hover{
+      border-color: rgba(0,0,0,0.28);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.06);
+      transform: translateY(-1px);
+    }
+
+    /* Click fuera */
+    .click-catcher{
+      position: fixed;
+      inset: 0;
+      background: transparent;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 25;
+    }
+    .click-catcher.open{
+      pointer-events: auto;
+    }
+
+    /* Mobile spacing */
+    @media (max-width: 520px){
+      .brand{ font-size: 26px; }
+      .topbar-inner{ height: 72px; }
+      main{ padding-top: 26px; }
+      .section{ padding: 18px; }
+      .lang-popover{ right: 12px; width: 250px; }
+    }
+  </style>
 </head>
 
 <body>
+  <!-- HEADER -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand" id="brandTitle">Firemap</div>
 
-<!-- SPLASH -->
-<div id="splash">
-  <img id="logo" src="./assets/icon.svg" alt="Firemap">
-</div>
+      <button class="burger" id="burgerBtn" aria-label="Menu">
+        <div class="burger-lines" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+      </button>
 
-<main id="page" class="hidden">
+      <!-- POPUP idioma (como la foto) -->
+      <div class="lang-popover" id="langPopover" aria-hidden="true">
+        <p class="lang-title" id="langLabel">Language</p>
 
-<header class="header">
-  <h1 class="header-title">Firemap</h1>
+        <div class="lang-row">
+          <button class="lang-pill" id="btnES">ES</button>
+          <button class="lang-pill" id="btnEN">EN</button>
+        </div>
+      </div>
+    </div>
 
-  <button id="hamburger" class="hamburger">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-</header>
+    <div class="divider"></div>
+  </header>
 
-<div class="top-divider"></div>
+  <!-- Captura click fuera para cerrar -->
+  <div class="click-catcher" id="clickCatcher"></div>
 
-<section class="content"></section>
+  <!-- CONTENT -->
+  <main>
+    <section class="section">
+      <h2 class="section-title" id="aboutTitle">About</h2>
+      <p class="text" id="aboutText">
+        During Fallas, receive a daily notification featuring the monument of the day.
+        Discover its location and history, walk through the city and upload a photo to preserve
+        your memories of the celebration.
+      </p>
+    </section>
 
-<div id="overlay" class="overlay"></div>
+    <section class="section">
+      <h2 class="section-title" id="contactTitle">Contact</h2>
+      <p class="text" id="contactText">
+        Open to exciting projects and collaborations.
+      </p>
+      <a class="contact-email" id="contactEmail" href="mailto:contact@byfiremap.com">contact@byfiremap.com</a>
+    </section>
 
-<aside id="drawer" class="drawer">
-  <h2 class="drawer-title">Language</h2>
+    <section class="section">
+      <h2 class="section-title" id="downloadTitle">Download</h2>
+      <p class="text" id="downloadText">
+        Choose your preferred platform.
+      </p>
 
-  <button class="lang-btn" data-lang="es">Español</button>
-  <button class="lang-btn" data-lang="en">English</button>
-</aside>
+      <div class="btn-row">
+        <a class="btn" href="#" id="appleBtn">
+          <span class="badge"></span>
+          <span id="appleLabel">App Store</span>
+        </a>
 
-</main>
+        <a class="btn" href="#" id="googleBtn">
+          <span class="badge">▶</span>
+          <span id="googleLabel">Google Play</span>
+        </a>
 
-<script>
-/* SPLASH */
-window.addEventListener("load", () => {
+        <a class="btn" href="#" id="webBtn">
+          <span class="badge">⌁</span>
+          <span id="webLabel">Web App</span>
+        </a>
+      </div>
+    </section>
+  </main>
 
-  const splash = document.getElementById("splash");
-  const logo = document.getElementById("logo");
-  const page = document.getElementById("page");
+  <script>
+    // ========= Popover logic (como la foto) =========
+    const burgerBtn = document.getElementById("burgerBtn");
+    const langPopover = document.getElementById("langPopover");
+    const clickCatcher = document.getElementById("clickCatcher");
 
-  setTimeout(()=>logo.classList.add("logo-in"),200);
+    function openPopover(){
+      langPopover.classList.add("open");
+      langPopover.setAttribute("aria-hidden","false");
+      clickCatcher.classList.add("open");
+    }
 
-  setTimeout(()=>{
-    splash.classList.add("fade");
+    function closePopover(){
+      langPopover.classList.remove("open");
+      langPopover.setAttribute("aria-hidden","true");
+      clickCatcher.classList.remove("open");
+    }
 
-    setTimeout(()=>{
-      splash.remove();
-      page.classList.remove("hidden");
-      page.classList.add("show");
-    },1200);
+    function togglePopover(){
+      if(langPopover.classList.contains("open")) closePopover();
+      else openPopover();
+    }
 
-  },1800);
-});
+    burgerBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      togglePopover();
+    });
 
-/* MENU LATERAL */
-const hamburger=document.getElementById("hamburger");
-const drawer=document.getElementById("drawer");
-const overlay=document.getElementById("overlay");
+    clickCatcher.addEventListener("click", closePopover);
 
-function openMenu(){
-  drawer.classList.add("open");
-  overlay.classList.add("show");
-}
+    window.addEventListener("keydown", (e) => {
+      if(e.key === "Escape") closePopover();
+    });
 
-function closeMenu(){
-  drawer.classList.remove("open");
-  overlay.classList.remove("show");
-}
+    // ========= Language / i18n =========
+    const texts = {
+      en: {
+        langLabel: "Language",
+        aboutTitle: "About",
+        aboutText:
+          "During Fallas, receive a daily notification featuring the monument of the day. " +
+          "Discover its location and history, walk through the city and upload a photo to preserve your memories of the celebration.",
+        contactTitle: "Contact",
+        contactText: "Open to exciting projects and collaborations.",
+        downloadTitle: "Download",
+        downloadText: "Choose your preferred platform.",
+        appleLabel: "App Store",
+        googleLabel: "Google Play",
+        webLabel: "Web App"
+      },
+      es: {
+        langLabel: "Idioma",
+        aboutTitle: "Descripción",
+        aboutText:
+          "Durante Fallas, recibe una notificación diaria con el monumento del día. " +
+          "Descubre su ubicación e historia, recorre la ciudad y sube una foto para guardar tus recuerdos de la celebración.",
+        contactTitle: "Contacto",
+        contactText: "Abierto a proyectos y colaboraciones.",
+        downloadTitle: "Descargar",
+        downloadText: "Elige tu plataforma.",
+        appleLabel: "App Store",
+        googleLabel: "Google Play",
+        webLabel: "Web App"
+      }
+    };
 
-hamburger.onclick=openMenu;
-overlay.onclick=closeMenu;
+    const ids = {
+      langLabel: document.getElementById("langLabel"),
+      aboutTitle: document.getElementById("aboutTitle"),
+      aboutText: document.getElementById("aboutText"),
+      contactTitle: document.getElementById("contactTitle"),
+      contactText: document.getElementById("contactText"),
+      downloadTitle: document.getElementById("downloadTitle"),
+      downloadText: document.getElementById("downloadText"),
+      appleLabel: document.getElementById("appleLabel"),
+      googleLabel: document.getElementById("googleLabel"),
+      webLabel: document.getElementById("webLabel")
+    };
 
-/* IDIOMA (solo guarda por ahora) */
-document.querySelectorAll(".lang-btn").forEach(btn=>{
-  btn.onclick=()=>{
-    localStorage.setItem("lang",btn.dataset.lang);
-    closeMenu();
-  }
-});
-</script>
+    const btnES = document.getElementById("btnES");
+    const btnEN = document.getElementById("btnEN");
 
+    function setActiveLangButtons(lang){
+      btnES.classList.toggle("active", lang === "es");
+      btnEN.classList.toggle("active", lang === "en");
+    }
+
+    function applyLang(lang){
+      const t = texts[lang];
+
+      ids.langLabel.textContent = t.langLabel;
+      ids.aboutTitle.textContent = t.aboutTitle;
+      ids.aboutText.textContent = t.aboutText;
+      ids.contactTitle.textContent = t.contactTitle;
+      ids.contactText.textContent = t.contactText;
+      ids.downloadTitle.textContent = t.downloadTitle;
+      ids.downloadText.textContent = t.downloadText;
+      ids.appleLabel.textContent = t.appleLabel;
+      ids.googleLabel.textContent = t.googleLabel;
+      ids.webLabel.textContent = t.webLabel;
+
+      setActiveLangButtons(lang);
+      localStorage.setItem("firemap_lang", lang);
+    }
+
+    btnES.addEventListener("click", () => {
+      applyLang("es");
+      closePopover();
+    });
+
+    btnEN.addEventListener("click", () => {
+      applyLang("en");
+      closePopover();
+    });
+
+    const saved = localStorage.getItem("firemap_lang");
+    applyLang(saved || "en");
+  </script>
 </body>
 </html>

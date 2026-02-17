@@ -48,10 +48,10 @@ html,body{
 
 /* TITULO GRANDE */
 .header-title{
-  font-size:32px;
-  font-weight:700;
-  letter-spacing:-0.5px;
-  margin:0;
+  font-size:40px;
+  font: weight 800px;
+  letter-spacing: 0.2px;
+  margin:-0.5;
 }
 
 /* HAMBURGER */
@@ -127,3 +127,102 @@ html,body{
   border-radius:8px;
 }
 .lang-btn:hover{background:#f5f5f5}
+
+/* ===== Floating language menu ===== */
+
+.lang-popup{
+  position: absolute;
+  top: 78px;
+  right: 18px;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px) scale(0.98);
+  transition: all .18s ease;
+}
+
+.lang-popup.open{
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0px) scale(1);
+}
+
+.lang-card{
+  background: #f6f6f6;
+  padding: 16px;
+  border-radius: 18px;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.18);
+  width: 220px;
+}
+
+.lang-buttons{
+  display:flex;
+  gap:12px;
+  margin-top:10px;
+}
+
+.lang-btn{
+  flex:1;
+  padding:12px 0;
+  border-radius:14px;
+  border:2px solid transparent;
+  background:#ececec;
+  font-weight:700;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.lang-btn.active{
+  background:#ffffff;
+  border:2px solid #000;
+}
+
+/* DOWNLOAD ICONS */
+
+.download-icons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+}
+
+.store-btn {
+  text-decoration: none;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: .2s ease;
+}
+
+.store-btn img {
+  width: 70px;
+  height: 70px;
+  padding: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.15);
+  background: white;
+  transition: .25s ease;
+}
+
+.store-btn:hover img {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+}
+
+/* CONTACT EMAIL STYLE */
+
+.contact-email {
+  color: black;
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.contact-email:hover {
+  text-decoration: underline;
+}
+
