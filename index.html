@@ -5,39 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Firemap</title>
 
-  <!-- Tipografía fina -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@200;300;400;500&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-  <!-- SPLASH: solo logo -->
-  <div id="splash" class="splash" aria-hidden="true">
-    <img class="splash-logo" src="assets/icon.svg" alt="Firemap logo" />
+
+  <!-- Pantalla inicial -->
+  <div id="splash">
+    <img id="logo" src="./assets/icon.svg">
   </div>
 
-  <!-- CONTENIDO: vacío por ahora -->
-  <main class="page"></main>
+  <!-- Página -->
+  <main id="page"></main>
 
-  <script>
-    // Ajusta estos tiempos si quieres:
-    // - SHOW_MIN_MS: cuánto tiempo se queda el logo antes de empezar a desaparecer
-    // - FADE_MS: duración del fade (tiene que coincidir con el CSS)
-    const SHOW_MIN_MS = 950;
-    const FADE_MS = 1100;
+<script>
+window.addEventListener("load", () => {
+  const splash = document.getElementById("splash");
 
-    window.addEventListener("load", () => {
-      const splash = document.getElementById("splash");
-      if (!splash) return;
+  setTimeout(() => {
+    splash.classList.add("fade");
+    setTimeout(() => splash.style.display = "none", 900);
+  }, 900);
+});
+</script>
 
-      setTimeout(() => {
-        splash.classList.add("hide");
-        setTimeout(() => splash.remove(), FADE_MS + 80);
-      }, SHOW_MIN_MS);
-    });
-  </script>
 </body>
 </html>
