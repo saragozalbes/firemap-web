@@ -19,7 +19,7 @@ html,body{
   z-index:9999;
 }
 #logo{
-  width:120px;
+  width:130px;
   opacity:0;
   transform:scale(.94);
   transition:opacity 2.2s ease, transform 2.2s ease;
@@ -28,10 +28,10 @@ html,body{
   opacity:1;
   transform:scale(1);
 }
-#splash.fade{opacity:0;pointer-events:none}
+#splash.fade{opacity:0}
 
 /* PAGE */
-#page{opacity:0;transition:opacity .8s ease;min-height:100vh}
+#page{opacity:0;transition:opacity .6s ease;min-height:100vh}
 #page.show{opacity:1}
 .hidden{opacity:0}
 
@@ -40,25 +40,26 @@ html,body{
   position:sticky;
   top:0;
   background:#fff;
-  height:58px;
+  height:64px;
   display:flex;
   align-items:center;
   justify-content:center;
 }
 
+/* TITULO GRANDE */
 .header-title{
-  font-size:22px;
-  font-weight:500;
-  letter-spacing:-.3px;
+  font-size:32px;
+  font-weight:700;
+  letter-spacing:-0.5px;
   margin:0;
 }
 
 /* HAMBURGER */
 .hamburger{
   position:absolute;
-  right:16px;
-  width:24px;
-  height:18px;
+  right:18px;
+  width:28px;
+  height:20px;
   display:flex;
   flex-direction:column;
   justify-content:space-between;
@@ -68,21 +69,19 @@ html,body{
   cursor:pointer;
 }
 .hamburger span{
-  height:1.5px;
+  height:2px;
   background:#111;
-  display:block;
   border-radius:2px;
 }
 
 /* DIVIDER */
 .top-divider{
   height:1px;
-  background:rgba(0,0,0,.06);
+  background:#e9e9e9;
 }
 
 /* CONTENT */
 .content{padding:24px}
-.placeholder{color:#777}
 
 /* OVERLAY */
 .overlay{
@@ -91,7 +90,7 @@ html,body{
   background:rgba(0,0,0,.15);
   opacity:0;
   pointer-events:none;
-  transition:.2s;
+  transition:.25s;
 }
 .overlay.show{
   opacity:1;
@@ -107,20 +106,16 @@ html,body{
   height:100%;
   background:#fff;
   box-shadow:-8px 0 30px rgba(0,0,0,.12);
-  transition:.25s;
-  padding:18px;
+  transition:.3s;
+  padding:22px;
 }
 .drawer.open{right:0}
 
-.drawer-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:18px;
+.drawer-title{
+  font-size:18px;
+  font-weight:600;
+  margin-bottom:16px;
 }
-
-.drawer-title{font-weight:600}
-.close{background:none;border:none;font-size:18px;cursor:pointer}
 
 .lang-btn{
   width:100%;

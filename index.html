@@ -17,7 +17,7 @@
 <main id="page" class="hidden">
 
 <header class="header">
-  <h1 class="header-title" data-i18n="title">Firemap</h1>
+  <h1 class="header-title">Firemap</h1>
 
   <button id="hamburger" class="hamburger">
     <span></span>
@@ -28,83 +28,65 @@
 
 <div class="top-divider"></div>
 
-<section class="content">
-  <div class="placeholder" data-i18n="placeholder">Aquí irá el contenido.</div>
-</section>
+<section class="content"></section>
 
 <div id="overlay" class="overlay"></div>
 
 <aside id="drawer" class="drawer">
-  <div class="drawer-top">
-    <div class="drawer-title" data-i18n="language">Idioma</div>
-    <button id="closeDrawer" class="close">✕</button>
-  </div>
+  <h2 class="drawer-title">Language</h2>
 
-  <div class="drawer-body">
-    <button class="lang-btn" data-lang="es">Español</button>
-    <button class="lang-btn" data-lang="en">English</button>
-  </div>
+  <button class="lang-btn" data-lang="es">Español</button>
+  <button class="lang-btn" data-lang="en">English</button>
 </aside>
 
 </main>
 
 <script>
+/* SPLASH */
 window.addEventListener("load", () => {
 
   const splash = document.getElementById("splash");
   const logo = document.getElementById("logo");
   const page = document.getElementById("page");
 
-  setTimeout(() => logo.classList.add("logo-in"), 200);
+  setTimeout(()=>logo.classList.add("logo-in"),200);
 
-  setTimeout(() => {
+  setTimeout(()=>{
     splash.classList.add("fade");
-    setTimeout(() => {
-      splash.style.display = "none";
+
+    setTimeout(()=>{
+      splash.remove();
       page.classList.remove("hidden");
       page.classList.add("show");
-    }, 1200);
-  }, 1800);
+    },1200);
+
+  },1800);
 });
 
-/* Drawer */
-const hamburger = document.getElementById("hamburger");
-const drawer = document.getElementById("drawer");
-const overlay = document.getElementById("overlay");
-const closeDrawer = document.getElementById("closeDrawer");
+/* MENU LATERAL */
+const hamburger=document.getElementById("hamburger");
+const drawer=document.getElementById("drawer");
+const overlay=document.getElementById("overlay");
 
-hamburger.onclick = () => {
+function openMenu(){
   drawer.classList.add("open");
   overlay.classList.add("show");
-};
-
-closeDrawer.onclick = () => {
-  drawer.classList.remove("open");
-  overlay.classList.remove("show");
-};
-
-overlay.onclick = () => {
-  drawer.classList.remove("open");
-  overlay.classList.remove("show");
-};
-
-/* Idioma */
-const dict = {
-  es:{title:"Firemap",language:"Idioma",placeholder:"Aquí irá el contenido."},
-  en:{title:"Firemap",language:"Language",placeholder:"Content will go here."}
-};
-
-function setLang(l){
-  localStorage.setItem("lang",l);
-  document.querySelectorAll("[data-i18n]").forEach(el=>{
-    el.textContent=dict[l][el.dataset.i18n];
-  });
 }
 
-setLang(localStorage.getItem("lang")||"es");
+function closeMenu(){
+  drawer.classList.remove("open");
+  overlay.classList.remove("show");
+}
 
-document.querySelectorAll(".lang-btn").forEach(b=>{
-  b.onclick=()=>setLang(b.dataset.lang);
+hamburger.onclick=openMenu;
+overlay.onclick=closeMenu;
+
+/* IDIOMA (solo guarda por ahora) */
+document.querySelectorAll(".lang-btn").forEach(btn=>{
+  btn.onclick=()=>{
+    localStorage.setItem("lang",btn.dataset.lang);
+    closeMenu();
+  }
 });
 </script>
 
