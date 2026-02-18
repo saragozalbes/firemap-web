@@ -23,7 +23,7 @@ body{
   color:black;
 }
 
-/* ================= SPLASH ================= */
+
 #splash{
   position:fixed;
   inset:0;
@@ -60,7 +60,7 @@ body{
   transition: opacity .6s ease;
 }
 
-/* ================= HEADER ================= */
+
 .topbar{
   position:sticky;
   top:0;
@@ -109,7 +109,7 @@ body{
 
 .divider{height:1px;background:var(--line);}
 
-/* ================= LANGUAGE POPUP ================= */
+
 .lang-pop{
   position:absolute;
   right:16px;
@@ -148,7 +148,7 @@ body{
   border:1px solid black;
 }
 
-/* ================= CONTENT ================= */
+  
 main{max-width:var(--max);margin:auto;padding:36px 18px;}
 
 .section{
@@ -171,7 +171,7 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
 }
 .contact-email:hover{ text-decoration:underline; }
 
-/* ================= DOWNLOAD BUTTONS ================= */
+
 .btn-row{
   display:flex;
   gap:12px;
@@ -207,7 +207,7 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
   font-weight:800;
 }
 
-/* ================= STEPS ================= */
+
 .steps{
   margin-top:12px;
   display:grid;
@@ -255,7 +255,7 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
   background: #fff;
 }
 
-/* ================= COUNTDOWN ================= */
+
 .countdown-wrap{
   margin-top: 12px;
   display:flex;
@@ -351,7 +351,7 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
   .countdown-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
 }
 
-/* ================= CONFETTI (⏰🔥) ================= */
+
 .confetti-layer{
   position: fixed;
   inset: 0;
@@ -510,7 +510,7 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
 </div>
 
 <script>
-/* ============ SPLASH ============ */
+
 window.addEventListener("load", () => {
   const splash = document.getElementById("splash");
   const logo = document.getElementById("splashLogo");
@@ -531,7 +531,7 @@ window.addEventListener("load", () => {
   }, HOLD);
 });
 
-/* ============ I18N ============ */
+
 const T = {
   en:{
     lang:"Language",
@@ -562,7 +562,7 @@ const T = {
     countDesc:"Each selected Falla can include its own countdown. This is an example timer you can later connect to the “Falla of the day”.",
     lblDays:"DAYS", lblHours:"HOURS", lblMins:"MIN", lblSecs:"SEC",
 
-    /* ✅ AQUÍ: equivalente a “Recomendación” en inglés */
+    
     countNote:"Recommendation: keep an eye on Firemap’s timer and the suggested location so you arrive right on time and don’t miss each Falla’s Cremà.",
 
     demoBtn:"New demo time",
@@ -602,7 +602,7 @@ const T = {
     countDesc:"Cada Falla seleccionada tiene su propio contador. Este es un ejemplo que luego puedes encontrar con la Falla selecionada del día.",
     lblDays:"DÍAS", lblHours:"HORAS", lblMins:"MIN", lblSecs:"SEG",
 
-    /* ✅ Tu cambio en español */
+    
     countNote:"Recomendación: mantente atento al contador de Firemap y a la ubicación indicada para llegar a la hora exacta y no perderte la Cremà de cada Falla.",
 
     demoBtn:"Nuevo ejemplo",
@@ -687,7 +687,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-/* ============ CONFETTI ⏰🔥 ============ */
+
 function burstClockFireConfetti(fromEl){
   let layer = document.querySelector(".confetti-layer");
   if(!layer){
@@ -734,7 +734,7 @@ function burstClockFireConfetti(fromEl){
   }, 1400);
 }
 
-/* ============ COUNTDOWN ============ */
+
 let targetTime = null;
 let timer = null;
 
