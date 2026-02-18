@@ -23,7 +23,7 @@ body{
   color:black;
 }
 
-/* ================= SPLASH (LOGO AL ENTRAR) ================= */
+
 #splash{
   position:fixed;
   inset:0;
@@ -54,7 +54,7 @@ body{
   pointer-events:none;
 }
 
-/* Ocultar contenido hasta que acabe splash */
+
 #app.hidden{
   opacity:0;
 }
@@ -63,7 +63,7 @@ body{
   transition: opacity .6s ease;
 }
 
-/* ================= HEADER ================= */
+
 .topbar{
   position:sticky;
   top:0;
@@ -112,7 +112,7 @@ body{
 
 .divider{height:1px;background:var(--line);}
 
-/* ================= POPUP LANGUAGE ================= */
+
 .lang-pop{
   position:absolute;
   right:16px;
@@ -151,7 +151,7 @@ body{
   border:1px solid black;
 }
 
-/* ================= CONTENT ================= */
+
 main{max-width:var(--max);margin:auto;padding:36px 18px;}
 
 .section{
@@ -176,7 +176,7 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
   text-decoration:underline;
 }
 
-/* ================= DOWNLOAD BUTTONS ================= */
+
 .btn-row{
   display:flex;
   gap:12px;
@@ -212,18 +212,59 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
   justify-content:center;
   font-weight:800;
 }
+
+
+.steps{
+  margin-top:12px;
+  display:grid;
+  gap:10px;
+}
+
+.step{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  padding:12px 12px;
+  border:1px solid rgba(0,0,0,0.08);
+  border-radius:14px;
+  background:#fff;
+}
+
+.step-num{
+  width:28px;
+  height:28px;
+  border-radius:10px;
+  border:1px solid rgba(0,0,0,0.14);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+}
+
+.step-text{
+  color:var(--muted);
+  line-height:1.55;
+}
+
+
+.highlight{
+  margin-top:10px;
+  padding:14px;
+  border-radius:14px;
+  border:1px solid rgba(0,0,0,0.08);
+  background: #fff;
+}
 </style>
 </head>
 
 <body>
 
-<!-- SPLASH LOGO -->
+
 <div id="splash">
-  <!-- Asegúrate de tener tu logo aquí: /assets/icon.svg -->
   <img id="splashLogo" src="assets/icon.svg" alt="Firemap logo">
 </div>
 
-<!-- APP -->
+
 <div id="app" class="hidden">
   <header class="topbar">
     <div class="topbar-inner">
@@ -245,6 +286,7 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
   </header>
 
   <main>
+    
     <section class="section">
       <h2 class="section-title" id="aboutTitle">About</h2>
       <p class="text" id="aboutText">
@@ -252,6 +294,49 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
         Discover its location and history, walk through the city and upload a photo to preserve your memories of the celebration.
       </p>
     </section>
+
+   
+    <section class="section">
+      <h2 class="section-title" id="howTitle">How it works</h2>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text" id="how1">Receive the daily Fallas monument notification.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text" id="how2">Walk to its location and discover its story.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text" id="how3">Upload a photo to save your memory of the day.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text" id="how4">Build your own collection throughout the celebration.</div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="section">
+      <h2 class="section-title" id="expTitle">Explore the city</h2>
+      <p class="text" id="expText">
+        Firemap turns every day of Fallas into a new route. Find the monument on the map, learn its history,
+        and enjoy Valencia by walking from one discovery to the next.
+      </p>
+
+      <div class="highlight">
+        <p class="text" id="expNote">
+          Tip: use Firemap as your daily plan — one monument, one walk, one memory.
+        </p>
+      </div>
+    </section>
+
 
     <section class="section">
       <h2 class="section-title" id="contactTitle">Contact</h2>
@@ -273,16 +358,14 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
 </div>
 
 <script>
-/* ============ SPLASH LOGO ============ */
+
 window.addEventListener("load", () => {
   const splash = document.getElementById("splash");
   const logo = document.getElementById("splashLogo");
   const app = document.getElementById("app");
 
-  // aparece suave
   setTimeout(() => logo.classList.add("show"), 150);
 
-  // tiempo total en pantalla
   const HOLD = 1200;
   const FADE = 1200;
 
@@ -296,12 +379,20 @@ window.addEventListener("load", () => {
   }, HOLD);
 });
 
-/* ============ LANGUAGE ============ */
+
 const T = {
   en:{
     lang:"Language",
     about:"About",
     aboutT:"During Fallas, receive a daily notification featuring the monument of the day. Discover its location and history, walk through the city and upload a photo to preserve your memories of the celebration.",
+    howTitle:"How it works",
+    how1:"Receive the daily Fallas monument notification.",
+    how2:"Walk to its location and discover its story.",
+    how3:"Upload a photo to save your memory of the day.",
+    how4:"Build your own collection throughout the celebration.",
+    expTitle:"Explore the city",
+    expText:"Firemap turns every day of Fallas into a new route. Find the monument on the map, learn its history, and enjoy Valencia by walking from one discovery to the next.",
+    expNote:"Tip: use Firemap as your daily plan — one monument, one walk, one memory.",
     contact:"Contact",
     contactT:"Open to exciting projects and collaborations.",
     download:"Download",
@@ -312,6 +403,14 @@ const T = {
     lang:"Idioma",
     about:"Descripción",
     aboutT:"Durante Fallas, recibe una notificación diaria con el monumento del día. Descubre su ubicación e historia, recorre la ciudad y sube una foto para guardar tus recuerdos.",
+    howTitle:"Cómo funciona",
+    how1:"Recibe la notificación diaria con el monumento de Fallas.",
+    how2:"Ve a su ubicación y descubre su historia.",
+    how3:"Sube una foto para guardar tu recuerdo del día.",
+    how4:"Crea tu propia colección durante la celebración.",
+    expTitle:"Explora la ciudad",
+    expText:"Firemap convierte cada día de Fallas en una nueva ruta. Encuentra el monumento en el mapa, conoce su historia y disfruta Valencia caminando de descubrimiento en descubrimiento.",
+    expNote:"Consejo: usa Firemap como plan diario — un monumento, un paseo, un recuerdo.",
     contact:"Contacto",
     contactT:"Abierto a proyectos y colaboraciones.",
     download:"Descargar",
@@ -326,8 +425,20 @@ function apply(l){
   document.getElementById("langLabel").textContent = t.lang;
   document.getElementById("aboutTitle").textContent = t.about;
   document.getElementById("aboutText").textContent = t.aboutT;
+
+  document.getElementById("howTitle").textContent = t.howTitle;
+  document.getElementById("how1").textContent = t.how1;
+  document.getElementById("how2").textContent = t.how2;
+  document.getElementById("how3").textContent = t.how3;
+  document.getElementById("how4").textContent = t.how4;
+
+  document.getElementById("expTitle").textContent = t.expTitle;
+  document.getElementById("expText").textContent = t.expText;
+  document.getElementById("expNote").textContent = t.expNote;
+
   document.getElementById("contactTitle").textContent = t.contact;
   document.getElementById("contactText").textContent = t.contactT;
+
   document.getElementById("downloadTitle").textContent = t.download;
   document.getElementById("downloadText").textContent = t.downloadT;
   document.getElementById("appleLabel").textContent = t.apple;
@@ -349,7 +460,6 @@ function toggleLang(){
   document.getElementById("langPop").classList.toggle("show");
 }
 
-// cerrar popover si clicas fuera
 document.addEventListener("click", (e) => {
   const pop = document.getElementById("langPop");
   const burger = document.querySelector(".burger");
@@ -359,7 +469,6 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// idioma inicial
 apply(localStorage.getItem("lang") || "en");
 </script>
 
