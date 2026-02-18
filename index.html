@@ -23,7 +23,6 @@ body{
   color:black;
 }
 
-
 #splash{
   position:fixed;
   inset:0;
@@ -54,7 +53,6 @@ body{
   pointer-events:none;
 }
 
-
 #app.hidden{
   opacity:0;
 }
@@ -62,7 +60,6 @@ body{
   opacity:1;
   transition: opacity .6s ease;
 }
-
 
 .topbar{
   position:sticky;
@@ -112,7 +109,6 @@ body{
 
 .divider{height:1px;background:var(--line);}
 
-
 .lang-pop{
   position:absolute;
   right:16px;
@@ -151,7 +147,6 @@ body{
   border:1px solid black;
 }
 
-
 main{max-width:var(--max);margin:auto;padding:36px 18px;}
 
 .section{
@@ -175,7 +170,6 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
 .contact-email:hover{
   text-decoration:underline;
 }
-
 
 .btn-row{
   display:flex;
@@ -213,7 +207,6 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
   font-weight:800;
 }
 
-
 .steps{
   margin-top:12px;
   display:grid;
@@ -246,7 +239,6 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
   line-height:1.55;
 }
 
-
 .highlight{
   margin-top:10px;
   padding:14px;
@@ -259,11 +251,9 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
 
 <body>
 
-
 <div id="splash">
   <img id="splashLogo" src="assets/icon.svg" alt="Firemap logo">
 </div>
-
 
 <div id="app" class="hidden">
   <header class="topbar">
@@ -286,7 +276,7 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
   </header>
 
   <main>
-    
+
     <section class="section">
       <h2 class="section-title" id="aboutTitle">About</h2>
       <p class="text" id="aboutText">
@@ -295,7 +285,6 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
       </p>
     </section>
 
-   
     <section class="section">
       <h2 class="section-title" id="howTitle">How it works</h2>
 
@@ -322,7 +311,6 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
       </div>
     </section>
 
-    
     <section class="section">
       <h2 class="section-title" id="expTitle">Explore the city</h2>
       <p class="text" id="expText">
@@ -337,6 +325,44 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
       </div>
     </section>
 
+    <!-- ✅ NUEVA SECCIÓN: NINOTS ESPECIALES (texto mejorado + más profesional) -->
+    <section class="section">
+      <h2 class="section-title" id="ninotsTitle">Special Ninots — New section</h2>
+
+      <p class="text" id="ninotsText">
+        During Fallas, each day Firemap highlights a selected Falla… and with it, a Special Ninot.
+        Find it, take a photo, and upload it the very same day to unlock it in your Firemap Album.
+        A unique way to explore the city and collect unforgettable moments.
+      </p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">📍</div>
+          <div class="step-text" id="ninots1">Visit the highlighted Falla of the day and locate the Special Ninot.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">📸</div>
+          <div class="step-text" id="ninots2">Capture it with your camera and upload your photo that same day.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">🗂</div>
+          <div class="step-text" id="ninots3">Unlock it in your collection and keep building your Firemap Album.</div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">🔥</div>
+          <div class="step-text" id="ninots4">Complete the challenge before the Cremà — once they burn, they’re gone.</div>
+        </div>
+      </div>
+
+      <div class="highlight">
+        <p class="text" id="ninotsNote">
+          Challenge: catch them before the day ends. Your album only updates with same-day uploads.
+        </p>
+      </div>
+    </section>
 
     <section class="section">
       <h2 class="section-title" id="contactTitle">Contact</h2>
@@ -358,7 +384,6 @@ main{max-width:var(--max);margin:auto;padding:36px 18px;}
 </div>
 
 <script>
-
 window.addEventListener("load", () => {
   const splash = document.getElementById("splash");
   const logo = document.getElementById("splashLogo");
@@ -379,7 +404,6 @@ window.addEventListener("load", () => {
   }, HOLD);
 });
 
-
 const T = {
   en:{
     lang:"Language",
@@ -393,6 +417,18 @@ const T = {
     expTitle:"Explore the city",
     expText:"Firemap turns every day of Fallas into a new route. Find the monument on the map, learn its history, and enjoy Valencia by walking from one discovery to the next.",
     expNote:"Tip: use Firemap as your daily plan — one monument, one walk, one memory.",
+
+    ninotsTitle:"Special Ninots — New section",
+    ninotsText:
+      "During Fallas, each day Firemap highlights a selected Falla… and with it, a Fire Ninot. " +
+      "Find it, take a photo, and upload it the very same day to unlock it in your Firemap Album. " +
+      "A unique way to explore the city and collect unforgettable moments.",
+    ninots1:"Visit the highlighted Falla of the day and locate the Special Ninot.",
+    ninots2:"Capture it with your camera and upload your photo that same day.",
+    ninots3:"Unlock it in your collection and keep building your Firemap Album.",
+    ninots4:"Complete the challenge before the Cremà — once they burn, they’re gone.",
+    ninotsNote:"Challenge: catch them before the day ends. Your album only updates with same-day uploads.",
+
     contact:"Contact",
     contactT:"Open to exciting projects and collaborations.",
     download:"Download",
@@ -411,6 +447,18 @@ const T = {
     expTitle:"Explora la ciudad",
     expText:"Firemap convierte cada día de Fallas en una nueva ruta. Encuentra el monumento en el mapa, conoce su historia y disfruta Valencia caminando de descubrimiento en descubrimiento.",
     expNote:"Consejo: usa Firemap como plan diario — un monumento, un paseo, un recuerdo.",
+
+    ninotsTitle:"Ninots especiales — Nueva sección",
+    ninotsText:
+      "Durante las Fallas, cada día Firemap destaca una Falla seleccionada… y con ella, un Ninot Especial. " +
+      "Encuéntralo, haz una foto y súbela ese mismo día para desbloquearlo en tu Firemap Album. " +
+      "Una forma única de vivir la fiesta y coleccionar recuerdos irrepetibles.",
+    ninots1:"Visita la Falla destacada del día y localiza el Ninot Especial.",
+    ninots2:"Haz una foto y súbela ese mismo día para validarlo.",
+    ninots3:"Desbloquéalo en tu colección y sigue completando tu Firemap Album.",
+    ninots4:"Completa el reto antes de la Cremà — cuando se quemen, desaparecerán para siempre.",
+    ninotsNote:"Reto: atrápalos antes de que acabe el día. El álbum solo se actualiza con subidas del mismo día.",
+
     contact:"Contacto",
     contactT:"Abierto a proyectos y colaboraciones.",
     download:"Descargar",
@@ -435,6 +483,15 @@ function apply(l){
   document.getElementById("expTitle").textContent = t.expTitle;
   document.getElementById("expText").textContent = t.expText;
   document.getElementById("expNote").textContent = t.expNote;
+
+  // ninots
+  document.getElementById("ninotsTitle").textContent = t.ninotsTitle;
+  document.getElementById("ninotsText").textContent = t.ninotsText;
+  document.getElementById("ninots1").textContent = t.ninots1;
+  document.getElementById("ninots2").textContent = t.ninots2;
+  document.getElementById("ninots3").textContent = t.ninots3;
+  document.getElementById("ninots4").textContent = t.ninots4;
+  document.getElementById("ninotsNote").textContent = t.ninotsNote;
 
   document.getElementById("contactTitle").textContent = t.contact;
   document.getElementById("contactText").textContent = t.contactT;
