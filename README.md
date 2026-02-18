@@ -1,16 +1,16 @@
 # Firemap
-Firemap is a web project designed to visualize and manage fire-related geographic information in an intuitive and accessible way.
 
-All documentation, project details, and usage information are available on the official website:
+Firemap is a web-based application focused on the visualization and management of fire-related geographic information.
 
-🔗 https://firemap.es
+This repository contains the source code of the application.
 
 ---
 
-## About the project
-This repository contains the source code of the Firemap web application.
+## Documentation & Project Information
 
-For full explanation, features, and context of the project, please visit the official website above.
+All functional explanations, context, and detailed information about the Firemap application are available on the official project website:
+
+🌐 https://firemap.es
 
 ---
 
