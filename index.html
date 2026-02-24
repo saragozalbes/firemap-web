@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Firemap</title>
+
+<style>
+:root{
+  --bg:#ffffff;
+  --text:#0b0b0b;
+  --muted:#4a4a4a;
+  --line:rgba(0,0,0,0.12);
+  --radius:18px;
+  --max:980px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,system-ui;
+  background:white;
+  color:black;
+}
+
+
+#splash{
+  position:fixed;
+  inset:0;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  opacity:1;
+  transition: opacity 1.2s ease;
+}
+
+#splashLogo{
+  width:140px;
+  height:auto;
+  opacity:0;
+  transform:scale(0.94);
+  transition: opacity 1.8s ease, transform 1.8s ease;
+}
+
+#splashLogo.show{
+  opacity:1;
+  transform:scale(1);
+}
+
+#splash.fade{
+  opacity:0;
+  pointer-events:none;
+}
+
+#app.hidden{ opacity:0; }
+#app.show{
+  opacity:1;
+  transition: opacity .6s ease;
+}
+
+
+.topbar{
+  position:sticky;
+  top:0;
+  background:white;
+  z-index:20;
+}
+
+.topbar-inner{
+  height:74px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  max-width:var(--max);
+  margin:auto;
+}
+
+.brand{
+  font-size:28px;
+  font-weight:800;
+}
+
+.burger{
+  position:absolute;
+  right:18px;
+  width:42px;
+  height:42px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:white;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.burger-lines{
+  width:18px;height:12px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.burger-lines span{
+  height:2px;background:black;border-radius:99px;
+}
+
+.divider{height:1px;background:var(--line);}
+
+
+.lang-pop{
+  position:absolute;
+  right:16px;
+  top:64px;
+  background:white;
+  border:1px solid rgba(0,0,0,.1);
+  border-radius:16px;
+  padding:14px;
+  width:240px;
+  box-shadow:0 18px 40px rgba(0,0,0,.12);
+  display:none;
+}
+
+.lang-pop.show{display:block;}
+
+.lang-title{
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:10px;
+  color:#555;
+}
+
+.lang-row{display:flex;gap:12px;}
+
+.lang-btn{
+  flex:1;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid rgba(0,0,0,.25);
+  background:white;
+  font-weight:800;
+  cursor:pointer;
+}
+.lang-btn.active{
+  background:#f2f2f2;
+  border:1px solid black;
+}
+
+  
+main{max-width:var(--max);margin:auto;padding:36px 18px;}
+
+.section{
+  margin-top:26px;
+  padding:22px;
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:var(--radius);
+  background:#fff;
+}
+
+.section-title{font-size:18px;font-weight:750;margin-bottom:10px;}
+.text{color:var(--muted);line-height:1.6;}
+
+.contact-email{
+  display:inline-block;
+  margin-top:8px;
+  color:black;
+  text-decoration:none;
+  font-weight:500;
+}
+.contact-email:hover{ text-decoration:underline; }
+
+
+.btn-row{
+  display:flex;
+  gap:12px;
+  margin-top:12px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  border:1px solid rgba(0,0,0,.15);
+  padding:12px 14px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  color:black;
+  font-weight:650;
+  transition:transform .12s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.btn:hover{
+  border-color: rgba(0,0,0,0.28);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.10);
+  transform: translateY(-1px);
+}
+
+.badge{
+  width:26px;height:26px;
+  border:1px solid rgba(0,0,0,0.15);
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+}
+
+
+.steps{
+  margin-top:12px;
+  display:grid;
+  gap:10px;
+}
+
+.step{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  padding:12px 12px;
+  border:1px solid rgba(0,0,0,0.08);
+  border-radius:14px;
+  background:#fff;
+  transition: transform .12s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.step:active{ transform: scale(0.985); }
+.step:hover{
+  border-color: rgba(0,0,0,0.12);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.06);
+}
+
+.step-num{
+  width:28px;
+  height:28px;
+  border-radius:10px;
+  border:1px solid rgba(0,0,0,0.14);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  flex: 0 0 auto;
+}
+
+.step-text{
+  color:var(--muted);
+  line-height:1.55;
+}
+
+.highlight{
+  margin-top:10px;
+  padding:14px;
+  border-radius:14px;
+  border:1px solid rgba(0,0,0,0.08);
+  background: #fff;
+}
+
+
+.countdown-wrap{
+  margin-top: 12px;
+  display:flex;
+  flex-direction:column;
+  gap: 12px;
+}
+
+.countdown-title{
+  font-weight:750;
+  color: #111;
+}
+
+.countdown-sub{
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.countdown-grid{
+  display:grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 10px;
+}
+
+.timebox{
+  border:1px solid rgba(0,0,0,0.10);
+  border-radius:14px;
+  padding: 12px 10px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:#fff;
+}
+
+.timebox .num{
+  font-size: 22px;
+  font-weight: 850;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+.timebox .lbl{
+  margin-top: 7px;
+  font-size: 12px;
+  letter-spacing: .35px;
+  color: #666;
+  font-weight: 700;
+}
+
+.pulse{ animation: pulse 1s infinite ease-in-out; }
+@keyframes pulse{
+  0%,100%{ transform: scale(1); }
+  50%{ transform: scale(1.04); }
+}
+
+.countdown-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 10px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(0,0,0,0.12);
+}
+
+.small-note{
+  font-size: 13px;
+  color: #666;
+  line-height: 1.4;
+}
+
+.mini-btn{
+  border:1px solid rgba(0,0,0,.15);
+  background:#fff;
+  padding:10px 12px;
+  border-radius:12px;
+  font-weight:750;
+  cursor:pointer;
+  transition: transform .12s ease, box-shadow .2s ease, border-color .2s ease;
+  white-space: nowrap;
+}
+.mini-btn:hover{
+  border-color: rgba(0,0,0,0.28);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+.mini-btn:active{
+  transform: translateY(0) scale(0.98);
+}
+
+@media (max-width: 520px){
+  .countdown-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+
+
+.confetti-layer{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99999;
+}
+
+.confetti-piece{
+  position: absolute;
+  font-size: 18px;
+  will-change: transform, opacity;
+  opacity: 0;
+  animation: confetti-pop 900ms ease-out forwards;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.10));
+}
+
+@keyframes confetti-pop{
+  0%{ transform: translate(0,0) scale(0.7) rotate(0deg); opacity: 0; }
+  12%{ opacity: 1; transform: translate(0, -6px) scale(1.0) rotate(10deg); }
+  100%{ opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1.1) rotate(var(--rot)); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .confetti-piece{ animation: none; opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div id="splash">
+  <img id="splashLogo" src="assets/icon.svg" alt="Firemap logo">
+</div>
+
+<div id="app" class="hidden">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Firemap</div>
+
+      <button class="burger" type="button" onclick="toggleLang()">
+        <div class="burger-lines"><span></span><span></span><span></span></div>
+      </button>
+
+      <div class="lang-pop" id="langPop">
+        <div class="lang-title" id="langLabel">Language</div>
+        <div class="lang-row">
+          <button type="button" class="lang-btn" id="esBtn" onclick="setLang('es')">ES</button>
+          <button type="button" class="lang-btn" id="enBtn" onclick="setLang('en')">EN</button>
+        </div>
+      </div>
+    </div>
+    <div class="divider"></div>
+  </header>
+
+  <main>
+
+    <section class="section">
+      <h2 class="section-title" id="aboutTitle">About</h2>
+      <p class="text" id="aboutText">
+        During Fallas, receive a daily notification featuring the monument of the day.
+        Discover its location and history, walk through the city and upload a photo to preserve your memories of the celebration.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title" id="howTitle">How it works</h2>
+
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-text" id="how1">Receive the daily Fallas monument notification.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text" id="how2">Walk to its location and discover its story.</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text" id="how3">Upload a photo to save your memory of the day.</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text" id="how4">Build your own collection throughout the celebration.</div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title" id="expTitle">Explore the city</h2>
+      <p class="text" id="expText">
+        Firemap turns every day of Fallas into a new route. Find the monument on the map, learn its history,
+        and enjoy Valencia by walking from one discovery to the next.
+      </p>
+
+      <div class="highlight">
+        <p class="text" id="expNote">
+          Tip: use Firemap as your daily plan — one monument, one walk, one memory.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title" id="ninotsTitle">Special Ninots — New section</h2>
+
+      <p class="text" id="ninotsText">
+        During Fallas, each day Firemap highlights a selected Falla… and with it, a Special Ninot.
+        Find it, take a photo, and upload it the very same day to unlock it in your Firemap Album.
+        A unique way to explore the city and collect unforgettable moments.
+      </p>
+
+      <div class="steps">
+        <div class="step"><div class="step-num">📍</div><div class="step-text" id="ninots1">Visit the highlighted Falla of the day and locate the Special Ninot.</div></div>
+        <div class="step"><div class="step-num">📸</div><div class="step-text" id="ninots2">Capture it with your camera and upload your photo that same day.</div></div>
+        <div class="step"><div class="step-num">🗂</div><div class="step-text" id="ninots3">Unlock it in your collection and keep building your Firemap Album.</div></div>
+        <div class="step"><div class="step-num">🔥</div><div class="step-text" id="ninots4">Complete the challenge before the Cremà — once they burn, they’re gone.</div></div>
+      </div>
+
+      <div class="highlight">
+        <p class="text" id="ninotsNote">
+          Challenge: catch them before the day ends. Your album only updates with same-day uploads.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title" id="countTitle">Cremà Countdown</h2>
+
+      <div class="countdown-wrap">
+        <div>
+          <div class="countdown-title" id="countHeading">Time left for today’s Cremà</div>
+          <p class="countdown-sub" id="countDesc">
+            Each selected Falla can include its own countdown. This is an example timer you can later connect to the “Falla of the day”.
+          </p>
+        </div>
+
+        <div class="countdown-grid" aria-live="polite">
+          <div class="timebox" id="boxDays"><div class="num" id="cdDays">00</div><div class="lbl" id="lblDays">DAYS</div></div>
+          <div class="timebox" id="boxHours"><div class="num" id="cdHours">00</div><div class="lbl" id="lblHours">HOURS</div></div>
+          <div class="timebox" id="boxMins"><div class="num" id="cdMins">00</div><div class="lbl" id="lblMins">MIN</div></div>
+          <div class="timebox" id="boxSecs"><div class="num" id="cdSecs">00</div><div class="lbl" id="lblSecs">SEC</div></div>
+        </div>
+
+        <div class="countdown-footer">
+          <div class="small-note" id="countNote"></div>
+          <button class="mini-btn" type="button" id="demoBtn">New demo time</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title" id="contactTitle">Contact</h2>
+      <p class="text" id="contactText">Open to exciting projects and collaborations.</p>
+      <a class="contact-email" href="mailto:contact@byfiremap.com">contact@byfiremap.com</a>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title" id="downloadTitle">Download</h2>
+      <p class="text" id="downloadText">Choose your preferred platform.</p>
+
+      <div class="btn-row">
+        <a class="btn" href="#" id="appleBtn"><span class="badge"></span><span id="appleLabel">App Store</span></a>
+        <a class="btn" href="#" id="googleBtn"><span class="badge">▶</span><span id="googleLabel">Google Play</span></a>
+        <a class="btn" href="#" id="webBtn"><span class="badge">⌁</span><span id="webLabel">Web App</span></a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+
+window.addEventListener("load", () => {
+  const splash = document.getElementById("splash");
+  const logo = document.getElementById("splashLogo");
+  const app = document.getElementById("app");
+
+  setTimeout(() => logo.classList.add("show"), 150);
+
+  const HOLD = 1200;
+  const FADE = 1200;
+
+  setTimeout(() => {
+    splash.classList.add("fade");
+    setTimeout(() => {
+      splash.remove();
+      app.classList.remove("hidden");
+      app.classList.add("show");
+    }, FADE);
+  }, HOLD);
+});
+
+
+const T = {
+  en:{
+    lang:"Language",
+    about:"About",
+    aboutT:"During Fallas, receive a daily notification featuring the monument of the day. Discover its location and history, walk through the city and upload a photo to preserve your memories of the celebration.",
+    howTitle:"How it works",
+    how1:"Receive the daily Fallas monument notification.",
+    how2:"Walk to its location and discover its story.",
+    how3:"Upload a photo to save your memory of the day.",
+    how4:"Build your own collection throughout the celebration.",
+    expTitle:"Explore the city",
+    expText:"Firemap turns every day of Fallas into a new route. Find the monument on the map, learn its history, and enjoy Valencia by walking from one discovery to the next.",
+    expNote:"Tip: use Firemap as your daily plan — one monument, one walk, one memory.",
+
+    ninotsTitle:"Special Ninots — New section",
+    ninotsText:
+      "During Fallas, each day Firemap highlights a selected Falla… and with it, a Special Ninot. " +
+      "Find it, take a photo, and upload it the very same day to unlock it in your Firemap Album. " +
+      "A unique way to explore the city and collect unforgettable moments.",
+    ninots1:"Visit the highlighted Falla of the day and locate the Special Ninot.",
+    ninots2:"Capture it with your camera and upload your photo that same day.",
+    ninots3:"Unlock it in your collection and keep building your Firemap Album.",
+    ninots4:"Complete the challenge before the Cremà — once they burn, they’re gone.",
+    ninotsNote:"Challenge: catch them before the day ends. Your album only updates with same-day uploads.",
+
+    countTitle:"Cremà Countdown",
+    countHeading:"Time left for today’s Cremà",
+    countDesc:"Each selected Falla can include its own countdown. This is an example timer you can later connect to the “Falla of the day”.",
+    lblDays:"DAYS", lblHours:"HOURS", lblMins:"MIN", lblSecs:"SEC",
+
+    
+    countNote:"Recommendation: keep an eye on Firemap’s timer and the suggested location so you arrive right on time and don’t miss each Falla’s Cremà.",
+
+    demoBtn:"New demo time",
+
+    contact:"Contact",
+    contactT:"Open to exciting projects and collaborations.",
+    download:"Download",
+    downloadT:"Choose your preferred platform.",
+    apple:"App Store", google:"Google Play", web:"Web App"
+  },
+  es:{
+    lang:"Idioma",
+    about:"Descripción",
+    aboutT:"Durante Fallas, recibe una notificación diaria con el monumento del día. Descubre su ubicación e historia, recorre la ciudad y sube una foto para guardar tus recuerdos.",
+    howTitle:"Cómo funciona",
+    how1:"Recibe la notificación diaria con el monumento de Fallas.",
+    how2:"Ve a su ubicación y descubre su historia.",
+    how3:"Sube una foto para guardar tu recuerdo del día.",
+    how4:"Crea tu propia colección durante la celebración.",
+    expTitle:"Explora la ciudad",
+    expText:"Firemap convierte cada día de Fallas en una nueva ruta. Encuentra el monumento en el mapa, conoce su historia y disfruta Valencia caminando de descubrimiento en descubrimiento.",
+    expNote:"Consejo: usa Firemap como plan diario — un monumento, un paseo, un recuerdo.",
+
+    ninotsTitle:"Ninots especiales — Nueva sección",
+    ninotsText:
+      "Durante las Fallas, cada día Firemap destaca una Falla seleccionada… y con ella, un Ninot Especial. " +
+      "Encuéntralo, haz una foto y súbela ese mismo día para desbloquearlo en tu Firemap Album. " +
+      "Una forma única de vivir la fiesta y coleccionar recuerdos irrepetibles.",
+    ninots1:"Visita la Falla destacada del día y localiza el Ninot Especial.",
+    ninots2:"Haz una foto y súbela ese mismo día para validarlo.",
+    ninots3:"Desbloquéalo en tu colección y sigue completando tu Firemap Album.",
+    ninots4:"Completa el reto antes de la Cremà — cuando se quemen, desaparecerán para siempre.",
+    ninotsNote:"Reto: atrápalos antes de que acabe el día. El álbum solo se actualiza con subidas del mismo día.",
+
+    countTitle:"Cuenta atrás para la Cremà",
+    countHeading:"Tiempo restante para la Cremà de cada Falla capturada",
+    countDesc:"Cada Falla seleccionada tiene su propio contador. Este es un ejemplo que luego puedes encontrar con la Falla selecionada del día.",
+    lblDays:"DÍAS", lblHours:"HORAS", lblMins:"MIN", lblSecs:"SEG",
+
+    
+    countNote:"Recomendación: mantente atento al contador de Firemap y a la ubicación indicada para llegar a la hora exacta y no perderte la Cremà de cada Falla.",
+
+    demoBtn:"Nuevo ejemplo",
+
+    contact:"Contacto",
+    contactT:"Abierto a proyectos y colaboraciones.",
+    download:"Descargar",
+    downloadT:"Elige tu plataforma.",
+    apple:"App Store", google:"Google Play", web:"Web App"
+  }
+};
+
+function apply(l){
+  const t = T[l] || T.en;
+
+  const safe = (id, value) => {
+    const el = document.getElementById(id);
+    if(el) el.textContent = value;
+  };
+
+  safe("langLabel", t.lang);
+  safe("aboutTitle", t.about);
+  safe("aboutText", t.aboutT);
+
+  safe("howTitle", t.howTitle);
+  safe("how1", t.how1);
+  safe("how2", t.how2);
+  safe("how3", t.how3);
+  safe("how4", t.how4);
+
+  safe("expTitle", t.expTitle);
+  safe("expText", t.expText);
+  safe("expNote", t.expNote);
+
+  safe("ninotsTitle", t.ninotsTitle);
+  safe("ninotsText", t.ninotsText);
+  safe("ninots1", t.ninots1);
+  safe("ninots2", t.ninots2);
+  safe("ninots3", t.ninots3);
+  safe("ninots4", t.ninots4);
+  safe("ninotsNote", t.ninotsNote);
+
+  safe("countTitle", t.countTitle);
+  safe("countHeading", t.countHeading);
+  safe("countDesc", t.countDesc);
+  safe("lblDays", t.lblDays);
+  safe("lblHours", t.lblHours);
+  safe("lblMins", t.lblMins);
+  safe("lblSecs", t.lblSecs);
+  safe("countNote", t.countNote);
+  safe("demoBtn", t.demoBtn);
+
+  safe("contactTitle", t.contact);
+  safe("contactText", t.contactT);
+
+  safe("downloadTitle", t.download);
+  safe("downloadText", t.downloadT);
+  safe("appleLabel", t.apple);
+  safe("googleLabel", t.google);
+  safe("webLabel", t.web);
+
+  localStorage.setItem("lang", l);
+  document.getElementById("esBtn").classList.toggle("active", l === "es");
+  document.getElementById("enBtn").classList.toggle("active", l === "en");
+}
+
+function setLang(l){
+  apply(l);
+  document.getElementById("langPop").classList.remove("show");
+}
+
+function toggleLang(){
+  document.getElementById("langPop").classList.toggle("show");
+}
+
+document.addEventListener("click", (e) => {
+  const pop = document.getElementById("langPop");
+  const burger = document.querySelector(".burger");
+  if (!pop) return;
+  if (!pop.contains(e.target) && !burger.contains(e.target)) {
+    pop.classList.remove("show");
+  }
+});
+
+
+function burstClockFireConfetti(fromEl){
+  let layer = document.querySelector(".confetti-layer");
+  if(!layer){
+    layer = document.createElement("div");
+    layer.className = "confetti-layer";
+    document.body.appendChild(layer);
+  }
+
+  const rect = fromEl.getBoundingClientRect();
+  const originX = rect.left + rect.width / 2;
+  const originY = rect.top + rect.height / 2;
+
+  const emojis = ["🧨","🔥","⏰","💥","🧨","🔥","⏰","🧨"];
+  const count = 26;
+
+  for(let i=0;i<count;i++){
+    const piece = document.createElement("span");
+    piece.className = "confetti-piece";
+    piece.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+    piece.style.left = originX + "px";
+    piece.style.top  = originY + "px";
+
+    const angle = Math.random() * Math.PI * 2;
+    const radius = 80 + Math.random() * 130;
+    const dx = Math.cos(angle) * radius;
+    const dy = (Math.sin(angle) * radius) - (120 + Math.random() * 120);
+
+    const rot = (Math.random() * 360 - 180) + "deg";
+    const size = 16 + Math.random() * 12;
+
+    piece.style.setProperty("--dx", dx.toFixed(1) + "px");
+    piece.style.setProperty("--dy", dy.toFixed(1) + "px");
+    piece.style.setProperty("--rot", rot);
+    piece.style.fontSize = size + "px";
+    piece.style.animationDelay = (Math.random() * 80) + "ms";
+
+    layer.appendChild(piece);
+    piece.addEventListener("animationend", () => piece.remove());
+  }
+
+  setTimeout(() => {
+    if(layer && layer.childElementCount === 0) layer.remove();
+  }, 1400);
+}
+
+
+let targetTime = null;
+let timer = null;
+
+const elDays  = document.getElementById("cdDays");
+const elHours = document.getElementById("cdHours");
+const elMins  = document.getElementById("cdMins");
+const elSecs  = document.getElementById("cdSecs");
+
+function pad(n){ return String(n).padStart(2,"0"); }
+
+function setTarget(dateObj){
+  targetTime = dateObj.getTime();
+  startCountdown();
+}
+
+function randomDemoTarget(){
+  const mins = 1 + Math.floor(Math.random() * 5);
+  setTarget(new Date(Date.now() + mins * 60 * 1000));
+}
+
+function startCountdown(){
+  if(timer) clearInterval(timer);
+  tick();
+  timer = setInterval(tick, 1000);
+}
+
+function tick(){
+  if(!targetTime) return;
+
+  const now = Date.now();
+  let diff = targetTime - now;
+
+  const boxSecs = document.getElementById("boxSecs");
+  if(diff <= 0){
+    diff = 0;
+    boxSecs.classList.add("pulse");
+    setTimeout(()=> boxSecs.classList.remove("pulse"), 1400);
+  }
+
+  const totalSeconds = Math.floor(diff/1000);
+  const days  = Math.floor(totalSeconds / (3600*24));
+  const hours = Math.floor((totalSeconds % (3600*24)) / 3600);
+  const mins  = Math.floor((totalSeconds % 3600) / 60);
+  const secs  = totalSeconds % 60;
+
+  elDays.textContent  = pad(days);
+  elHours.textContent = pad(hours);
+  elMins.textContent  = pad(mins);
+  elSecs.textContent  = pad(secs);
+
+  boxSecs.classList.remove("pulse");
+  void boxSecs.offsetWidth;
+  boxSecs.classList.add("pulse");
+}
+
+document.getElementById("demoBtn").addEventListener("click", (e) => {
+  randomDemoTarget();
+  burstClockFireConfetti(e.currentTarget);
+});
+
+/* init */
+apply(localStorage.getItem("lang") || "en");
+randomDemoTarget();
+</script>
+
+</body>
+</html>
